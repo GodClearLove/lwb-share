@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.mapper.UserMapper">
+    <select id="queryAllByDate1" resultType="Integer">
+        <![CDATA[
+          select count(*) from user where datediff(now(),reg_date)<7
+        ]]>
+    </select>
+    <select id="queryAllByDate2" resultType="Integer">
+        <![CDATA[
+        select count(*) from user where datediff(now(),reg_date)<14
+        ]]>
+    </select>
+    <select id="queryAllByDate3" resultType="Integer">
+        <![CDATA[
+        select count(*) from user where datediff(now(),reg_date)<21
+        ]]>
+    </select>
+
+
+    <select id="queryAllByPro1" resultType="Prov">
+        select count(*) as value ,province name from user where sex=1 group by province
+    </select>
+    <select id="queryAllByPro2" resultType="Prov">
+        select count(*) as value ,province name from user where sex=0 group by province
+    </select>
+</mapper>

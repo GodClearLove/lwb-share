@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.mapper.PermissionMapper">
+    <select id="queryPerm" parameterType="Integer" resultType="Permission">
+        select p.id,p.permissionName from permission p LEFT JOIN rp rp
+              ON p.id=rp.p_id LEFT JOIN role r
+              on r.id=rp.r_id where r.id=#{rid}
+    </select>
+</mapper>

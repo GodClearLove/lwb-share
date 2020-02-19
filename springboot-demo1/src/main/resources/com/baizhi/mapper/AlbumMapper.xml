@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.mapper.AlbumMapper">
+    <select id="getCount" resultType="Integer">
+        select count(*) from album
+    </select>
+    <resultMap id="r1" type="Album">
+        <id column="id" property="id"></id>
+        <result column="title" property="title"></result>
+        <result column="count" property="count"></result>
+        <result column="aci" property="coverImg"></result>
+        <result column="score" property="score"></result>
+        <result column="author" property="author"></result>
+        <result column="broadcast" property="broadcast"></result>
+        <result column="brief" property="brief"></result>
+        <result column="apd" property="pubDate"></result>
+        <collection property="children" ofType="com.baizhi.entity.Chapter">
+            <id column="ccid" property="id"></id>
+            <result column="ctitle" property="title"></result>
+            <result column="size" property="size"></result>
+            <result column="duration" property="duration"></result>
+            <result column="url" property="url"></result>
+            <result column="cud" property="uploadDate"></result>
+        </collection>
+    </resultMap>
+    <!--单个字段名与实体一致，可省略定义别名。俩表相同字段必须定义别名-->
+    <select id="queryAllByPage" resultMap="r1">
+      select a.id,a.title,a.count,a.cover_img aci,a.score,
+             a.author,a.broadcast,a.brief,a.pub_date apd,
+             c.id ccid,c.title ctitle,c.size,
+             c.duration,c.url,c.upload_date cud
+      from album a left join chapter c on a.id=c.aid
+      order by c.id limit ${(curPage-1)*pageSize},${pageSize}
+    </select>
+
+    <update id="updateCount">
+        update album set count=#{count} where id=#{id}
+    </update>
+
+    <select id="queryAll" resultMap="r1">
+        select a.id,a.title,a.count,a.cover_img aci,a.score,
+               a.author,a.broadcast,a.brief,a.pub_date apd,
+               c.id ccid,c.title ctitle,c.size,
+               c.duration,c.url,c.upload_date cud
+        from album a left join chapter c on a.id=c.aid
+        order by c.id
+    </select>
+
+    <select id="queryOneById" parameterType="Integer" resultMap="r1">
+        select a.id,a.title,a.count,a.cover_img aci,a.score,
+               a.author,a.broadcast,a.brief,a.pub_date apd,
+               c.id ccid,c.title ctitle,c.size,
+               c.duration,c.url,c.upload_date cud
+        from album a left join chapter c on a.id=c.aid
+        where a.id=#{id}
+    </select>
+</mapper>
